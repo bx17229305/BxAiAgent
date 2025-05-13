@@ -1,6 +1,6 @@
 ### custom ###
 application-local.yml
-
+.ds_store
 
 HELP.md
 target/
