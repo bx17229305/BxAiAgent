@@ -1,7 +1,6 @@
 ### custom ###
 application-local.yml
 .DS_Store
-chatmemory/
 
 HELP.md
 target/
