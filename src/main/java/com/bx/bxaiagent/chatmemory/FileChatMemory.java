@@ -39,7 +39,7 @@ public class FileChatMemory implements ChatMemory {
   @Override
   public List<Message> get(String conversationId, int lastN) {
     List<Message> oldMessages = load(conversationId);
-    return oldMessages.stream().skip(Math.max(0, oldMessages.size() - lastN)).collect(Collectors.toList());
+    return oldMessages.stream().skip(Math.max(0, oldMessages.size() - lastN)).toList();
   }
 
   @Override
@@ -67,7 +67,7 @@ public class FileChatMemory implements ChatMemory {
     List<Message> messages = new ArrayList<>();
     if (file.exists()) {
       try (Input input = new Input(new FileInputStream(file))) {
-        messages = kryo.readObject(input, List.class);
+        messages = kryo.readObject(input, ArrayList.class);
       } catch (IOException e) {
         throw new RuntimeException("读取聊天记录失败", e);
       }
@@ -76,6 +76,10 @@ public class FileChatMemory implements ChatMemory {
   }
 
   public File getFileByConversationId(String conversationId) {
+    File baseDir = new File(BASE_PATH);
+    if (!baseDir.exists()) {
+      baseDir.mkdirs();
+    }
     return new File(BASE_PATH, conversationId + ".kryo");
   }
 
